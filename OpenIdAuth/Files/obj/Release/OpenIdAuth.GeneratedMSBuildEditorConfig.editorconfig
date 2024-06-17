@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = OpenIdAuth
+build_property.ProjectDir = C:\inetpub\Creatio\Terrasoft.WebApp\Terrasoft.Configuration\Pkg\OpenIdAuth\Files\

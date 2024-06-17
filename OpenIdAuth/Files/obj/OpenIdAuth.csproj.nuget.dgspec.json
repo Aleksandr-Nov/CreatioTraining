@@ -1,0 +1,47 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\inetpub\\Creatio\\Terrasoft.WebApp\\Terrasoft.Configuration\\Pkg\\OpenIdAuth\\Files\\OpenIdAuth.csproj": {}
+  },
+  "projects": {
+    "C:\\inetpub\\Creatio\\Terrasoft.WebApp\\Terrasoft.Configuration\\Pkg\\OpenIdAuth\\Files\\OpenIdAuth.csproj": {
+      "version": "7.18.5.1500",
+      "restore": {
+        "projectUniqueName": "C:\\inetpub\\Creatio\\Terrasoft.WebApp\\Terrasoft.Configuration\\Pkg\\OpenIdAuth\\Files\\OpenIdAuth.csproj",
+        "projectName": "OpenIdAuth",
+        "projectPath": "C:\\inetpub\\Creatio\\Terrasoft.WebApp\\Terrasoft.Configuration\\Pkg\\OpenIdAuth\\Files\\OpenIdAuth.csproj",
+        "packagesPath": "C:\\Windows\\TEMP\\1\\IIS APPPOOL_Creatio\\Default\\dotnet\\.nuget\\packages\\",
+        "outputPath": "C:\\inetpub\\Creatio\\Terrasoft.WebApp\\Terrasoft.Configuration\\Pkg\\OpenIdAuth\\Files\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Windows\\TEMP\\1\\IIS APPPOOL_Creatio\\Default\\dotnet\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "targetAlias": "net472",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "targetAlias": "net472",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.405\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
