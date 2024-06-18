@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Resources Culture="he-IL">
+	<Group Type="String">
+		<Items>
+			<Item Name="Caption" Value="Страница редактирования: &quot;Кредитная программа&quot;" />
+			<Item Name="LocalizableStrings.NavSchemace1c091eDetail0ce6b19cDetailCaptionOnPage.Value" Value="אובייקט בסיס" />
+		</Items>
+	</Group>
+</Resources>

@@ -1,0 +1,14 @@
+﻿{
+  "Descriptor": {
+    "UId": "0f58537d-8f7e-4778-8c7b-891f3880c41a",
+    "Name": "NavModelInFolder",
+    "ModifiedOnUtc": "\/Date(1707588429000)\/",
+    "Parent": {
+      "UId": "4f63bafb-e9e7-4082-b92e-66b97c14017c",
+      "Name": "BaseItemInFolder"
+    },
+    "ManagerName": "EntitySchemaManager",
+    "Caption": "Модель в группе",
+    "DependsOn": []
+  }
+}

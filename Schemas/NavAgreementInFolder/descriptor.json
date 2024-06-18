@@ -1,0 +1,14 @@
+﻿{
+  "Descriptor": {
+    "UId": "3c459acf-1e00-4688-8bbf-53ad086b22e2",
+    "Name": "NavAgreementInFolder",
+    "ModifiedOnUtc": "\/Date(1707733071000)\/",
+    "Parent": {
+      "UId": "4f63bafb-e9e7-4082-b92e-66b97c14017c",
+      "Name": "BaseItemInFolder"
+    },
+    "ManagerName": "EntitySchemaManager",
+    "Caption": "Договор в группе",
+    "DependsOn": []
+  }
+}

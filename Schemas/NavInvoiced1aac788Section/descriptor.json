@@ -1,0 +1,14 @@
+﻿{
+  "Descriptor": {
+    "UId": "80341292-48e4-42a5-a819-881941314653",
+    "Name": "NavInvoiced1aac788Section",
+    "ModifiedOnUtc": "\/Date(1707736397000)\/",
+    "Parent": {
+      "UId": "7912fb69-4fee-429f-8b23-93943c35d66d",
+      "Name": "BaseSectionV2"
+    },
+    "ManagerName": "ClientUnitSchemaManager",
+    "Caption": "Схема раздела: \"Счёт\"",
+    "DependsOn": []
+  }
+}

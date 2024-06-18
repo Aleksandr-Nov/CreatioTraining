@@ -1,0 +1,14 @@
+﻿{
+  "Descriptor": {
+    "UId": "d9dffe25-6b7c-40df-a302-371cfc1bcfe8",
+    "Name": "NavCreditbd30a9c6Section",
+    "ModifiedOnUtc": "\/Date(1707735524000)\/",
+    "Parent": {
+      "UId": "7912fb69-4fee-429f-8b23-93943c35d66d",
+      "Name": "BaseSectionV2"
+    },
+    "ManagerName": "ClientUnitSchemaManager",
+    "Caption": "Схема раздела: \"Кредитная программа\"",
+    "DependsOn": []
+  }
+}

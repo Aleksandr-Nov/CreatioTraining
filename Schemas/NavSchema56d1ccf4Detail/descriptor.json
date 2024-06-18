@@ -1,0 +1,14 @@
+﻿{
+  "Descriptor": {
+    "UId": "cfcabc51-b637-4298-beb3-5927be69b24f",
+    "Name": "NavSchema56d1ccf4Detail",
+    "ModifiedOnUtc": "\/Date(1707738921000)\/",
+    "Parent": {
+      "UId": "01eb38ee-668a-42f0-999d-c2534f979089",
+      "Name": "BaseGridDetailV2"
+    },
+    "ManagerName": "ClientUnitSchemaManager",
+    "Caption": "Contract",
+    "DependsOn": []
+  }
+}

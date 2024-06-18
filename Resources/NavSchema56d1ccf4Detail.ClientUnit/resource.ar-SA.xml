@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Resources Culture="ar-SA">
+	<Group Type="String">
+		<Items>
+			<Item Name="Caption" Value="عقد" />
+			<Item Name="LocalizableStrings.Caption.Value" Value="عقد" />
+		</Items>
+	</Group>
+</Resources>

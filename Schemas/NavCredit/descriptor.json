@@ -1,0 +1,14 @@
+﻿{
+  "Descriptor": {
+    "UId": "de74dcc9-456e-4c2c-893a-6f77d5c05df0",
+    "Name": "NavCredit",
+    "ModifiedOnUtc": "\/Date(1707735532000)\/",
+    "Parent": {
+      "UId": "1bab9dcf-17d5-49f8-9536-8e0064f1dce0",
+      "Name": "BaseEntity"
+    },
+    "ManagerName": "EntitySchemaManager",
+    "Caption": "Кредитная программа",
+    "DependsOn": []
+  }
+}
