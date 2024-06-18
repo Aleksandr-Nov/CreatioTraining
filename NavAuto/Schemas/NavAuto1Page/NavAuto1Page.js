@@ -2,6 +2,16 @@ define("NavAuto1Page", [], function() {
 	return {
 		entitySchemaName: "NavAuto",
 		attributes: {
+			/**
+			 * Аттрибут видимости полей [NavInAccident], [NavKm], [NavOwnersCount].
+			 */
+			"IsVisibleUsed": {
+				dataValueType: this.Terrasoft.DataValueType.BOOLEAN, 
+				dependencies: [{
+					columns: ["NavUsed"],
+					methodName: "VisibleFields" 
+				}]
+			},
 		},
 		modules: /**SCHEMA_MODULES*/{}/**SCHEMA_MODULES*/,
 		details: /**SCHEMA_DETAILS*/{
@@ -16,6 +26,19 @@ define("NavAuto1Page", [], function() {
 		}/**SCHEMA_DETAILS*/,
 		businessRules: /**SCHEMA_BUSINESS_RULES*/{}/**SCHEMA_BUSINESS_RULES*/,
 		methods: {
+			onEntityInitialized: function() {
+				this.callParent(arguments);	
+				this.VisibleFields();
+			},
+			
+			/**
+			 * Пробег, Количество владельцев, был в ДТП отображаются только при значении в поле С пробегом=true.
+			 *
+			 * Задание № 2.8
+			 */
+			VisibleFields: function() {		
+				this.set("IsVisibleUsed", this.get("NavUsed")); 
+			}, 
 		},
 		dataModels: /**SCHEMA_DATA_MODELS*/{}/**SCHEMA_DATA_MODELS*/,
 		diff: /**SCHEMA_DIFF*/[
@@ -150,6 +173,9 @@ define("NavAuto1Page", [], function() {
 				"operation": "insert",
 				"name": "INTEGER113e4033-6268-4bb4-ac02-ed40e5a8a48e",
 				"values": {
+					"visible": {
+						"bindTo": "IsVisibleUsed"
+					},
 					"layout": {
 						"colSpan": 24,
 						"rowSpan": 1,
@@ -168,6 +194,9 @@ define("NavAuto1Page", [], function() {
 				"operation": "insert",
 				"name": "FLOAT57d44138-4fc7-4ec6-b2f1-83c5485ad190",
 				"values": {
+					"visible": {
+						"bindTo": "IsVisibleUsed"
+					},
 					"layout": {
 						"colSpan": 24,
 						"rowSpan": 1,
@@ -186,6 +215,9 @@ define("NavAuto1Page", [], function() {
 				"operation": "insert",
 				"name": "BOOLEANe33cee89-ff52-4ee7-8fdd-9ebf3944f2ca",
 				"values": {
+					"visible": {
+						"bindTo": "IsVisibleUsed"
+					},
 					"layout": {
 						"colSpan": 24,
 						"rowSpan": 1,

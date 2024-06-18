@@ -2,6 +2,10 @@ define("NavInvoice1Page", [], function() {
 	return {
 		entitySchemaName: "NavInvoice",
 		attributes: {
+			"IsModelItemsEnabled": {
+				dataValueType: Terrasoft.DataValueType.BOOLEAN,
+				value: true,
+			},
 		},
 		modules: /**SCHEMA_MODULES*/{}/**SCHEMA_MODULES*/,
 		details: /**SCHEMA_DETAILS*/{
@@ -16,6 +20,23 @@ define("NavInvoice1Page", [], function() {
 		}/**SCHEMA_DETAILS*/,
 		businessRules: /**SCHEMA_BUSINESS_RULES*/{}/**SCHEMA_BUSINESS_RULES*/,
 		methods: {
+			
+			/**
+			 * после сохранения на счете статуса = оплачен, никакие поля счета изменять нельзя.
+			 *
+			 * Задание № 2.7
+			 */
+			onEntityInitialized: function() {
+				this.callParent(arguments);
+				if (!this.isAddMode() && this.get("NavFact")) { 
+					this.set("IsModelItemsEnabled", false);
+				}
+			},
+			
+			onSaved: function(response, config) { 
+				this.callParent(arguments);
+				this.set("IsModelItemsEnabled", false);
+			},
 		},
 		dataModels: /**SCHEMA_DATA_MODELS*/{}/**SCHEMA_DATA_MODELS*/,
 		diff: /**SCHEMA_DIFF*/[

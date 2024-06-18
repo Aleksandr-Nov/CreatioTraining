@@ -1,7 +1,58 @@
-define("NavAgreement1Page", ["ConfigurationConstants", "LookupUtilities", "ServiceHelper"], function(ConfigurationConstants, LookupUtilities, ServiceHelper) {
+define("NavAgreement1Page", [], function() {
 	return {
 		entitySchemaName: "NavAgreement",
-		attributes: {	
+		attributes: {
+			"IsVisibleCredit": {
+				dataValueType: this.Terrasoft.DataValueType.BOOLEAN, 
+				value: true
+			},
+			"IsVisibleFact": {
+				dataValueType: this.Terrasoft.DataValueType.BOOLEAN, 
+				value: true
+			},
+			"IsVisibleCreditTab": {
+				dataValueType: this.Terrasoft.DataValueType.BOOLEAN, 
+				value: true
+			},
+			/**
+			 *	Аттрибут для отображения\скрытия поля [Кредитная программа].
+			 */
+			"Credit": {
+				"dependencies": [
+					{
+						"columns": [ "NavContact","NavAuto"], 
+						"methodName": "setCreditVisible"
+					}
+				]
+ 			},
+			
+			/**
+			 *	Аттрибут для отображения\скрытия вкладки [Кредит].
+			 */
+			"CreditTab": {
+				"dependencies": [
+					{
+						"columns": [ "NavCredit" ], 
+						"methodName": "setCreditTabVisible"
+					}
+				]
+ 			},
+			
+			/**
+			 *	Аттрибут для хранения наименования документа.
+			 */
+			"NavNameValue": {
+				dataValueType: this.Terrasoft.DataValueType.TEXT,
+				value: null
+			},
+			
+			/**
+			 *	Аттрибут для отслеживания роли Администратора у пользователя.
+			 */
+			"IsAdminChecker": {
+				 dataValueType: Terrasoft.DataValueType.BOOLEAN,
+				 value: true,
+			},
 		},
 		modules: /**SCHEMA_MODULES*/{}/**SCHEMA_MODULES*/,
 		details: /**SCHEMA_DETAILS*/{
@@ -24,6 +75,125 @@ define("NavAgreement1Page", ["ConfigurationConstants", "LookupUtilities", "Servi
 		}/**SCHEMA_DETAILS*/,
 		businessRules: /**SCHEMA_BUSINESS_RULES*/{}/**SCHEMA_BUSINESS_RULES*/,
 		methods: {			
+			onEntityInitialized: function() {
+				this.callParent(arguments);
+				//this.subscribeOnCreditProgramChange();
+				if (this.isAddMode() || this.isCopyMode()) { 
+					this.set("IsVisibleFact", false);
+					this.set("IsVisibleCreditTab", false);
+					this.set("IsVisibleCredit", false);
+				}
+				else{
+					this.getUserRole(this.EnableFieldsForAdmin, "System administrators");
+				}
+			},
+			
+			/**
+			 * Блокировать поля после сохранения, если пользователь не Администратор.
+			 *
+			 * Задание № 2.6
+			 */
+			EnableFieldsForAdmin: function(scope,isAdmin) {
+				scope.set("IsAdminChecker", isAdmin);	
+			},
+			
+			/**
+			 * По завершении ввода, оставлять только цифры и тире.
+			 *
+			 * Задание № 2.5
+			 */
+			setValidationConfig: function() {
+				this.callParent(arguments);				
+				this.addColumnValidator("NavName", this.PrepareName);
+			},
+			
+			PrepareName: function() {
+				var invalidMessage= "";
+				if (this.get("NavName") != null) {
+					var OldName = this.get("NavNameValue");
+					var Name = this.get("NavName");
+					if (OldName != Name) {
+						var newName = this.replaceName(Name);
+						this.set("NavNameValue", newName);
+						this.set("NavName", newName);
+					}
+				}
+//
+				return {
+					invalidMessage: invalidMessage
+				};
+			},
+			
+			replaceName: function (str) {
+        		return str.replace(/[^0-9-]/g, "");
+    		},
+			
+			/**
+			 * После выбора контакта и автомобиля, становиться доступным поле кредитная программа.
+			 *
+			 * Задание № 2.2
+			 */
+			setCreditVisible: function()
+			{	
+				var Contact = this.get("NavContact");
+				var Auto = this.get("NavAuto");
+				if (Contact == null || Auto == null) {
+					this.set("IsVisibleCredit", false);
+				}
+				if (Contact.value && Auto.value) {
+					this.set("IsVisibleCredit", true);
+				}
+			},
+			
+			/**
+			 * После выбора кредитной программы, отображается вкладка Кредит.
+			 *
+			 * Задание № 2.3
+			 */
+			setCreditTabVisible: function()
+			{	
+				 var Credit = this.get("NavCredit");
+				 
+				 if (Credit == null) {
+					this.set("IsVisibleCreditTab", false);
+				 }
+				 
+				 if (Credit.value) {
+					this.set("IsVisibleCreditTab", true);
+				 }
+ 			},
+			
+			/**
+			 * Получение роли для 2.6.
+			 *
+			 * Задание № 2.6
+			 */
+			getUserRole: function(callback, roleName) {	
+				var currentUserId = Terrasoft.SysValue;
+//
+				var esq = Ext.create("Terrasoft.EntitySchemaQuery", {
+					rootSchemaName: "SysUserInRole"
+				});
+				esq.addColumn("SysRole");
+				esq.filters.add("UserFilter", Terrasoft.createColumnFilterWithParameter(
+					Terrasoft.ComparisonType.EQUAL, "SysUser", Terrasoft.SysValue.CURRENT_USER.value
+				));
+				esq.getEntityCollection(function(result) {
+					if (!result.success || result.collection.getItems().length === 0) {
+						return false;
+					}
+					var roleChecker = false;
+					result.collection.each(function(item) { 
+						var role = item.get("SysRole");
+						var name = role.displayValue;
+						if(name == roleName) {
+							roleChecker =  true;
+							return;
+						}
+					});
+					callback(this,roleChecker);
+				}, this);				
+			},
 		},
 		dataModels: /**SCHEMA_DATA_MODELS*/{}/**SCHEMA_DATA_MODELS*/,
 		diff: /**SCHEMA_DIFF*/[
@@ -129,6 +299,9 @@ define("NavAgreement1Page", ["ConfigurationConstants", "LookupUtilities", "Servi
 				"operation": "insert",
 				"name": "BOOLEAN063d4dd5-b66f-4164-8be4-694685dc5ac5",
 				"values": {
+					"visible": {
+						"bindTo": "IsVisibleFact"
+					},
 					"layout": {
 						"colSpan": 24,
 						"rowSpan": 1,
@@ -147,6 +320,9 @@ define("NavAgreement1Page", ["ConfigurationConstants", "LookupUtilities", "Servi
 				"operation": "insert",
 				"name": "LOOKUPbca287be-28c6-43f7-b0f6-b376d0ea017d",
 				"values": {
+					"visible": {
+						"bindTo": "IsVisibleCredit"
+					},
 					"layout": {
 						"colSpan": 24,
 						"rowSpan": 1,
@@ -180,6 +356,9 @@ define("NavAgreement1Page", ["ConfigurationConstants", "LookupUtilities", "Servi
 				"operation": "insert",
 				"name": "Tab30c24240TabLabelGroup411d1e73",
 				"values": {
+					"visible": {
+						"bindTo": "IsVisibleCreditTab"
+					},
 					"caption": {
 						"bindTo": "Resources.Strings.Tab30c24240TabLabelGroup411d1e73GroupCaption"
 					},

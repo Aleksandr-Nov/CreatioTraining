@@ -2,6 +2,13 @@ define("NavCredit1Page", [], function() {
 	return {
 		entitySchemaName: "NavCredit",
 		attributes: {
+			/**
+			 *	Аттрибут отвечающий за минимальный срок кредита в годах.
+			 */
+			"minPeriodForCredit": {
+				 dataValueType: this.Terrasoft.DataValueType.INTEGER,
+				 value: 1
+			},
 		},
 		modules: /**SCHEMA_MODULES*/{}/**SCHEMA_MODULES*/,
 		details: /**SCHEMA_DETAILS*/{
@@ -24,6 +31,63 @@ define("NavCredit1Page", [], function() {
 		}/**SCHEMA_DETAILS*/,
 		businessRules: /**SCHEMA_BUSINESS_RULES*/{}/**SCHEMA_BUSINESS_RULES*/,
 		methods: {
+			setValidationConfig: function() {
+				this.callParent(arguments);
+				this.addColumnValidator("NavDateStart", this.dateOnChange);
+				this.addColumnValidator("NavDateEnd", this.dateOnChange); 
+			},
+			
+			dateOnChange: function()
+			{	
+				var invalidMessage = "";
+				var DateStart = this.get("NavDateStart");
+				var DateEnd = this.get("NavDateEnd");
+				 
+				if (DateStart == null || DateStart.value || DateEnd == null || DateEnd.value ) {
+					return {
+						invalidMessage: invalidMessage
+ 					};
+				}
+				if (!this.checkDateRange(DateStart, DateEnd)) {
+					invalidMessage = "Дата окончания не должна быть меньше даты начала менее чем на: " + this.get("minPeriodForCredit") + " год";     
+				} 
+				return {
+					invalidMessage: invalidMessage
+ 				};
+ 			},
+					
+			/**
+			 *	Проверка: дата оконнчания > дата начала.
+			 *
+			 * Задание № 2.4
+			 */
+			checkDateRange: function (startDate, endDate) {
+				var startday = startDate.getDate();
+				var startmonth = startDate.getMonth();
+				var startyear = startDate.getFullYear();
+
+				var endday = endDate.getDate();
+				var endmonth = endDate.getMonth();
+				var endyear = endDate.getFullYear();
+
+				if (endyear - startyear > this.get("minPeriodForCredit")) {
+					return true;
+				}
+
+				if (endyear <= startyear) {
+					return false;
+				}
+
+				if (endmonth > startmonth) {
+					return true;
+				} 
+
+				if (endmonth == startmonth) {
+					return endday > startday;
+				} 
+
+				return false;     
+    		},
 		},
 		dataModels: /**SCHEMA_DATA_MODELS*/{}/**SCHEMA_DATA_MODELS*/,
 		diff: /**SCHEMA_DIFF*/[
