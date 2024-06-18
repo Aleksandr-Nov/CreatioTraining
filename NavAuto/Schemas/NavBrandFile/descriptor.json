@@ -1,0 +1,14 @@
+﻿{
+  "Descriptor": {
+    "UId": "aa20fb7b-0723-4937-a318-252d329b26db",
+    "Name": "NavBrandFile",
+    "ModifiedOnUtc": "\/Date(1707497270000)\/",
+    "Parent": {
+      "UId": "556c5867-60a7-4456-aae1-a57a122bef70",
+      "Name": "File"
+    },
+    "ManagerName": "EntitySchemaManager",
+    "Caption": "Файл и ссылка объекта Марка",
+    "DependsOn": []
+  }
+}

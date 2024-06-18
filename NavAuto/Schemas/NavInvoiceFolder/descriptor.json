@@ -1,0 +1,14 @@
+﻿{
+  "Descriptor": {
+    "UId": "34aaa0aa-0406-4dc8-bd61-df17be824a27",
+    "Name": "NavInvoiceFolder",
+    "ModifiedOnUtc": "\/Date(1707736414000)\/",
+    "Parent": {
+      "UId": "d602bf96-d029-4b07-9755-63c8f5cb5ed5",
+      "Name": "BaseFolder"
+    },
+    "ManagerName": "EntitySchemaManager",
+    "Caption": "Группа Счёт",
+    "DependsOn": []
+  }
+}

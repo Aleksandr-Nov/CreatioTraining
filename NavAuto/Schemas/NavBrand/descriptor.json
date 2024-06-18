@@ -1,0 +1,14 @@
+﻿{
+  "Descriptor": {
+    "UId": "ef8c353c-bd09-491e-bbac-314b40a9a9c3",
+    "Name": "NavBrand",
+    "ModifiedOnUtc": "\/Date(1707497267000)\/",
+    "Parent": {
+      "UId": "1bab9dcf-17d5-49f8-9536-8e0064f1dce0",
+      "Name": "BaseEntity"
+    },
+    "ManagerName": "EntitySchemaManager",
+    "Caption": "Марка",
+    "DependsOn": []
+  }
+}

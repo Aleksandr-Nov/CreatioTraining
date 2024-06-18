@@ -1,0 +1,14 @@
+﻿{
+  "Descriptor": {
+    "UId": "07e8544c-6bd0-44ef-bf7d-cc36eda556a3",
+    "Name": "NavAutoFile",
+    "ModifiedOnUtc": "\/Date(1707730511000)\/",
+    "Parent": {
+      "UId": "556c5867-60a7-4456-aae1-a57a122bef70",
+      "Name": "File"
+    },
+    "ManagerName": "EntitySchemaManager",
+    "Caption": "Файл и ссылка объекта Автомобиль",
+    "DependsOn": []
+  }
+}

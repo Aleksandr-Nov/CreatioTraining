@@ -1,0 +1,14 @@
+﻿{
+  "Descriptor": {
+    "UId": "f14c1dfb-e3f7-406f-a294-4ded41605905",
+    "Name": "NavAgreementafe58eedSection",
+    "ModifiedOnUtc": "\/Date(1707733053000)\/",
+    "Parent": {
+      "UId": "7912fb69-4fee-429f-8b23-93943c35d66d",
+      "Name": "BaseSectionV2"
+    },
+    "ManagerName": "ClientUnitSchemaManager",
+    "Caption": "Схема раздела: \"Договор\"",
+    "DependsOn": []
+  }
+}
