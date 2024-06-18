@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Resources Culture="nl-NL">
-	<Group Type="String">
-		<Items>
-			<Item Name="Columns.NavName.Caption" Value="Naam" />
-			<Item Name="Columns.NavNotes.Caption" Value="Aantekeningen" />
-		</Items>
-	</Group>
-</Resources>

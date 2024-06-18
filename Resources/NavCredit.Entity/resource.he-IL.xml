@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Resources Culture="he-IL">
-	<Group Type="String">
-		<Items>
-			<Item Name="Columns.NavName.Caption" Value="שם" />
-			<Item Name="Columns.NavNotes.Caption" Value="הערות" />
-		</Items>
-	</Group>
-</Resources>
