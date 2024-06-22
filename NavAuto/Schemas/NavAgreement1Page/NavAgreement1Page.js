@@ -1,4 +1,4 @@
-define("NavAgreement1Page", [], function() {
+define("NavAgreement1Page", ["NavAgrementConstants"], function(NavAgrementConstants) {
 	return {
 		entitySchemaName: "NavAgreement",
 		attributes: {
@@ -77,14 +77,13 @@ define("NavAgreement1Page", [], function() {
 		methods: {			
 			onEntityInitialized: function() {
 				this.callParent(arguments);
-				//this.subscribeOnCreditProgramChange();
 				if (this.isAddMode() || this.isCopyMode()) { 
 					this.set("IsVisibleFact", false);
 					this.set("IsVisibleCreditTab", false);
 					this.set("IsVisibleCredit", false);
 				}
 				else{
-					this.getUserRole(this.EnableFieldsForAdmin, "System administrators");
+					this.getUserRole(this.enableFieldsForAdmin, NavAgrementConstants.Role.Admin);
 				}
 			},
 			
@@ -93,7 +92,7 @@ define("NavAgreement1Page", [], function() {
 			 *
 			 * Задание № 2.6
 			 */
-			EnableFieldsForAdmin: function(scope,isAdmin) {
+			enableFieldsForAdmin: function(scope,isAdmin) {
 				scope.set("IsAdminChecker", isAdmin);	
 			},
 			
@@ -108,8 +107,8 @@ define("NavAgreement1Page", [], function() {
 			},
 			
 			PrepareName: function() {
-				var invalidMessage= "";
-				if (this.get("NavName") != null) {
+				var invalidMessage= "Test";
+				if (this.$NavName) {
 					var OldName = this.get("NavNameValue");
 					var Name = this.get("NavName");
 					if (OldName != Name) {
@@ -118,7 +117,7 @@ define("NavAgreement1Page", [], function() {
 						this.set("NavName", newName);
 					}
 				}
-//
+
 				return {
 					invalidMessage: invalidMessage
 				};
@@ -135,12 +134,10 @@ define("NavAgreement1Page", [], function() {
 			 */
 			setCreditVisible: function()
 			{	
-				var Contact = this.get("NavContact");
-				var Auto = this.get("NavAuto");
-				if (Contact == null || Auto == null) {
+				if (this.$NavContact?.value == null || this.$NavAuto?.value == null) {
 					this.set("IsVisibleCredit", false);
 				}
-				if (Contact.value && Auto.value) {
+				else {
 					this.set("IsVisibleCredit", true);
 				}
 			},
@@ -152,15 +149,12 @@ define("NavAgreement1Page", [], function() {
 			 */
 			setCreditTabVisible: function()
 			{	
-				 var Credit = this.get("NavCredit");
-				 
-				 if (Credit == null) {
-					this.set("IsVisibleCreditTab", false);
-				 }
-				 
-				 if (Credit.value) {
+				if (this.$NavCredit?.value) {
 					this.set("IsVisibleCreditTab", true);
-				 }
+				}
+				else {
+					this.set("IsVisibleCreditTab", false);
+				}
  			},
 			
 			/**
@@ -170,7 +164,6 @@ define("NavAgreement1Page", [], function() {
 			 */
 			getUserRole: function(callback, roleName) {	
 				var currentUserId = Terrasoft.SysValue;
-//
 				var esq = Ext.create("Terrasoft.EntitySchemaQuery", {
 					rootSchemaName: "SysUserInRole"
 				});
@@ -179,29 +172,28 @@ define("NavAgreement1Page", [], function() {
 					Terrasoft.ComparisonType.EQUAL, "SysUser", Terrasoft.SysValue.CURRENT_USER.value
 				));
 				esq.getEntityCollection(function(result) {
-					if (!result.success || result.collection.getItems().length === 0) {
-						return false;
+					if (result.success && result.collection.getItems().length != 0) {
+						var roleChecker = false;
+						result.collection.each(function(item) { 
+							var role = item.get("SysRole");
+							var name = role.displayValue;
+							if(name == roleName) {
+								roleChecker =  true;
+								return;
+							}
+						});
+						callback(this, roleChecker);
 					}
-					var roleChecker = false;
-					result.collection.each(function(item) { 
-						var role = item.get("SysRole");
-						var name = role.displayValue;
-						if(name == roleName) {
-							roleChecker =  true;
-							return;
-						}
-					});
-					callback(this,roleChecker);
 				}, this);				
 			},
 		},
 		dataModels: /**SCHEMA_DATA_MODELS*/{}/**SCHEMA_DATA_MODELS*/,
 		diff: /**SCHEMA_DIFF*/[
 			{
-			 	"operation": "merge",
+				"operation": "merge",
 				"name": "CardContentWrapper",
 				"values": {
-				 "generator": "DisableControlsGenerator.generatePartial" }
+					"generator": "DisableControlsGenerator.generatePartial" }
 			},
 			{
 				"operation": "insert",

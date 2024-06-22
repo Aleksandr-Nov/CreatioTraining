@@ -31,12 +31,7 @@ define("NavInvoice1Page", [], function() {
 				if (!this.isAddMode() && this.get("NavFact")) { 
 					this.set("IsModelItemsEnabled", false);
 				}
-			},
-			
-			onSaved: function(response, config) { 
-				this.callParent(arguments);
-				this.set("IsModelItemsEnabled", false);
-			},
+			},		
 		},
 		dataModels: /**SCHEMA_DATA_MODELS*/{}/**SCHEMA_DATA_MODELS*/,
 		diff: /**SCHEMA_DIFF*/[

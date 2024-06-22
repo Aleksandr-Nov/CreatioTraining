@@ -28,7 +28,7 @@ define("NavAuto1Page", [], function() {
 		methods: {
 			onEntityInitialized: function() {
 				this.callParent(arguments);	
-				this.VisibleFields();
+				this.visibleFields();
 			},
 			
 			/**
@@ -36,7 +36,7 @@ define("NavAuto1Page", [], function() {
 			 *
 			 * Задание № 2.8
 			 */
-			VisibleFields: function() {		
+			visibleFields: function() {		
 				this.set("IsVisibleUsed", this.get("NavUsed")); 
 			}, 
 		},

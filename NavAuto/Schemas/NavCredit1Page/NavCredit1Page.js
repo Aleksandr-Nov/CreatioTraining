@@ -37,19 +37,24 @@ define("NavCredit1Page", [], function() {
 				this.addColumnValidator("NavDateEnd", this.dateOnChange); 
 			},
 			
+			/**
+			 *	Получаем значения из полей [Дата начала], [Дата конца], проверям что они заполненны и отправляем на валидацию.
+			 *
+			 * Задание № 2.4
+			 */
 			dateOnChange: function()
 			{	
 				var invalidMessage = "";
-				var DateStart = this.get("NavDateStart");
-				var DateEnd = this.get("NavDateEnd");
+				var dateStart = this.get("NavDateStart");
+				var dateEnd = this.get("NavDateEnd");
 				 
-				if (DateStart == null || DateStart.value || DateEnd == null || DateEnd.value ) {
+				if (dateStart == null || dateStart.value || dateEnd == null || dateEnd.value ) {
 					return {
 						invalidMessage: invalidMessage
  					};
 				}
-				if (!this.checkDateRange(DateStart, DateEnd)) {
-					invalidMessage = "Дата окончания не должна быть меньше даты начала менее чем на: " + this.get("minPeriodForCredit") + " год";     
+				if (!this.checkDateRange(dateStart, dateEnd)) {
+					invalidMessage = `${this.get("Resources.Strings.CreditPeriodErrorMessage")} ${this.get("minPeriodForCredit")} год`;
 				} 
 				return {
 					invalidMessage: invalidMessage
