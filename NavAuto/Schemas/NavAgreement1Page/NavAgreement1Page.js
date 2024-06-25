@@ -107,7 +107,7 @@ define("NavAgreement1Page", ["NavAgrementConstants"], function(NavAgrementConsta
 			},
 			
 			PrepareName: function() {
-				var invalidMessage= "Test";
+				var invalidMessage= "";
 				if (this.$NavName) {
 					var OldName = this.get("NavNameValue");
 					var Name = this.get("NavName");
