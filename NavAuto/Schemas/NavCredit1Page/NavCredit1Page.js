@@ -2,6 +2,13 @@ define("NavCredit1Page", [], function() {
 	return {
 		entitySchemaName: "NavCredit",
 		attributes: {
+			/**
+			 *	Аттрибут отвечающий за минимальный срок кредита в годах.
+			 */
+			"minPeriodForCredit": {
+				 dataValueType: this.Terrasoft.DataValueType.INTEGER,
+				 value: 1
+			},
 		},
 		modules: /**SCHEMA_MODULES*/{}/**SCHEMA_MODULES*/,
 		details: /**SCHEMA_DETAILS*/{
@@ -24,6 +31,68 @@ define("NavCredit1Page", [], function() {
 		}/**SCHEMA_DETAILS*/,
 		businessRules: /**SCHEMA_BUSINESS_RULES*/{}/**SCHEMA_BUSINESS_RULES*/,
 		methods: {
+			setValidationConfig: function() {
+				this.callParent(arguments);
+				this.addColumnValidator("NavDateStart", this.dateOnChange);
+				this.addColumnValidator("NavDateEnd", this.dateOnChange); 
+			},
+			
+			/**
+			 *	Получаем значения из полей [Дата начала], [Дата конца], проверям что они заполненны и отправляем на валидацию.
+			 *
+			 * Задание № 2.4
+			 */
+			dateOnChange: function()
+			{	
+				var invalidMessage = "";
+				var dateStart = this.get("NavDateStart");
+				var dateEnd = this.get("NavDateEnd");
+				 
+				if (dateStart == null || dateStart.value || dateEnd == null || dateEnd.value ) {
+					return {
+						invalidMessage: invalidMessage
+ 					};
+				}
+				if (!this.checkDateRange(dateStart, dateEnd)) {
+					invalidMessage = `${this.get("Resources.Strings.CreditPeriodErrorMessage")} ${this.get("minPeriodForCredit")} год`;
+				} 
+				return {
+					invalidMessage: invalidMessage
+ 				};
+ 			},
+					
+			/**
+			 *	Проверка: дата оконнчания > дата начала.
+			 *
+			 * Задание № 2.4
+			 */
+			checkDateRange: function (startDate, endDate) {
+				var startday = startDate.getDate();
+				var startmonth = startDate.getMonth();
+				var startyear = startDate.getFullYear();
+
+				var endday = endDate.getDate();
+				var endmonth = endDate.getMonth();
+				var endyear = endDate.getFullYear();
+
+				if (endyear - startyear > this.get("minPeriodForCredit")) {
+					return true;
+				}
+
+				if (endyear <= startyear) {
+					return false;
+				}
+
+				if (endmonth > startmonth) {
+					return true;
+				} 
+
+				if (endmonth == startmonth) {
+					return endday > startday;
+				} 
+
+				return false;     
+    		},
 		},
 		dataModels: /**SCHEMA_DATA_MODELS*/{}/**SCHEMA_DATA_MODELS*/,
 		diff: /**SCHEMA_DIFF*/[
