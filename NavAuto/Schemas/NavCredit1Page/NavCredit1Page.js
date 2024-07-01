@@ -27,6 +27,14 @@ define("NavCredit1Page", [], function() {
 					"detailColumn": "NavCredit",
 					"masterColumn": "Id"
 				}
+			},
+			"NavSchema5d5b2795Detaile21ae418": {
+				"schemaName": "NavSchema5d5b2795Detail",
+				"entitySchemaName": "NavAutoAndCredit",
+				"filter": {
+					"detailColumn": "NavCredit",
+					"masterColumn": "Id"
+				}
 			}
 		}/**SCHEMA_DETAILS*/,
 		businessRules: /**SCHEMA_BUSINESS_RULES*/{}/**SCHEMA_BUSINESS_RULES*/,
@@ -235,6 +243,17 @@ define("NavCredit1Page", [], function() {
 				"parentName": "Tab80f376a1TabLabel",
 				"propertyName": "items",
 				"index": 1
+			},
+			{
+				"operation": "insert",
+				"name": "NavSchema5d5b2795Detaile21ae418",
+				"values": {
+					"itemType": 2,
+					"markerValue": "added-detail"
+				},
+				"parentName": "Tab80f376a1TabLabel",
+				"propertyName": "items",
+				"index": 2
 			},
 			{
 				"operation": "insert",

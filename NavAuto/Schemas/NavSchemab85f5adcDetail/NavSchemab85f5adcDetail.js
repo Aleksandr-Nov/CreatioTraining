@@ -15,9 +15,9 @@ define("NavSchemab85f5adcDetail", ["ConfigurationGrid", "ConfigurationGridGenera
 		methods: {
 			onActiveRowAction: function(buttonTag, primaryColumnValue) {
 				this.mixins.ConfigurationGridUtilitiesV2.onActiveRowAction.call(this, buttonTag, primaryColumnValue);
-			}
+			},
 		},
-		diff: /**SCHEMA_DIFF*/[
+		diff: /**SCHEMA_DIFF*/[		
 			{
 				"operation": "merge",
 				"name": "DataGrid",

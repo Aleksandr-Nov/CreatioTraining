@@ -4,6 +4,7 @@
 		<Items>
 			<Item Name="Caption" Value="Страница редактирования: &quot;Кредитная программа&quot;" />
 			<Item Name="LocalizableStrings.CreditPeriodErrorMessage.Value" Value="Дата окончания не должна быть меньше даты начала менее чем на:" />
+			<Item Name="LocalizableStrings.NavSchema5d5b2795Detaile21ae418DetailCaptionOnPage.Value" Value="NavAutoAndCredit" />
 			<Item Name="LocalizableStrings.NavSchemace1c091eDetail0ce6b19cDetailCaptionOnPage.Value" Value="Договор" />
 			<Item Name="LocalizableStrings.Tab80f376a1TabLabelGroupa0670a3fGroupCaption.Value" Value="Кредит" />
 			<Item Name="LocalizableStrings.Tab80f376a1TabLabelTabCaption.Value" Value="Кредит" />

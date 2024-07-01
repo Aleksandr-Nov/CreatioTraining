@@ -3,6 +3,7 @@
 	<Group Type="String">
 		<Items>
 			<Item Name="Caption" Value="Страница редактирования: &quot;Автомобиль&quot;" />
+			<Item Name="LocalizableStrings.NavSchema5d5b2795Detailb49ba2a3DetailCaptionOnPage.Value" Value="NavAutoAndCredit" />
 		</Items>
 	</Group>
 </Resources>

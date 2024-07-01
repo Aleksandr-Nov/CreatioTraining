@@ -15,9 +15,58 @@ define("NavSchemad9d58531Detail", ["ConfigurationGrid", "ConfigurationGridGenera
 		methods: {
 			onActiveRowAction: function(buttonTag, primaryColumnValue) {
 				this.mixins.ConfigurationGridUtilitiesV2.onActiveRowAction.call(this, buttonTag, primaryColumnValue);
-			}
+			},
+			
+			/**
+			 * Действие при нажатии кнопки "Закрыть выбранные".
+			 *
+			 * Задание № 3.7
+			 */
+			onCloseSelectedInvoicesButtonClick: function() {
+				this.closeSelectedInvoices();
+			},
+			
+			/**
+			 * Получение выбранных деталей и вызов сервиса для их перевода в статус [Оплачен].
+			 *
+			 * Задание № 3.7
+			 */
+			closeSelectedInvoices: function() {
+                var invoiceIds = this.getSelectedItems();
+				if (invoiceIds && invoiceIds.length > 0) {
+					this.callService({
+						serviceName: "NavCustomInvoiceService",
+						methodName: "CloseInvoices",
+						data: {
+							"InvoiceIds": invoiceIds
+						}
+					}, function(response) {
+						if (response && response.Success) {
+							this.reloadGridData();
+						}
+						else {
+							this.showInformationDialog(response.ErrorMessages);
+						}
+					}, this);
+				} else {
+					this.showInformationDialog(this.get("Resources.Strings.NoInvoicesSelectedMessage"));
+				} 
+            }
 		},
-		diff: /**SCHEMA_DIFF*/[
+		diff: /**SCHEMA_DIFF*/[					
+			{
+                "operation": "insert",
+                "name": "AssignContactButton",
+                "parentName": "Detail",
+                "propertyName": "tools",
+                "values": {
+                    "itemType": Terrasoft.ViewItemType.BUTTON,
+                    "caption": {"bindTo": "Resources.Strings.CloseSelectedInvoicesCaption"},
+                    "click": {"bindTo": "onCloseSelectedInvoicesButtonClick"},
+                    "style": Terrasoft.controls.ButtonEnums.style.TRANSPARENT,
+                    "enabled": true
+                }
+            },
 			{
 				"operation": "merge",
 				"name": "DataGrid",

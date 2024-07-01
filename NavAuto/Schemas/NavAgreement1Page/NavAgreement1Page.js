@@ -1,7 +1,29 @@
 define("NavAgreement1Page", ["NavAgrementConstants"], function(NavAgrementConstants) {
 	return {
+		messages: {
+			"recalculateCreditMessages": {
+				mode: Terrasoft.MessageMode.PTP,
+				direction: Terrasoft.MessageDirectionType.SUBSCRIBE
+			},
+		},
 		entitySchemaName: "NavAgreement",
 		attributes: {
+			"NavCredit": {
+                lookupListConfig: {
+                    filter: function() {
+                        var carId = this.get("NavAuto");
+                        if (carId) {
+							var filters = Ext.create("Terrasoft.FilterGroup");
+							filters.add("OppFilter", 
+								Terrasoft.createColumnFilterWithParameter(
+									Terrasoft.ComparisonType.EQUAL, "[NavAutoAndCredit:NavCredit:Id].NavAuto.Id", carId.value
+								)
+							);
+							return filters;
+                        }
+                    }
+                }
+            },
 			"IsVisibleCredit": {
 				dataValueType: this.Terrasoft.DataValueType.BOOLEAN, 
 				value: true
@@ -77,6 +99,7 @@ define("NavAgreement1Page", ["NavAgrementConstants"], function(NavAgrementConsta
 		methods: {			
 			onEntityInitialized: function() {
 				this.callParent(arguments);
+				this.subscribeOnCreditProgramChange();
 				if (this.isAddMode() || this.isCopyMode()) { 
 					this.set("IsVisibleFact", false);
 					this.set("IsVisibleCreditTab", false);
@@ -86,7 +109,7 @@ define("NavAgreement1Page", ["NavAgrementConstants"], function(NavAgrementConsta
 					this.getUserRole(this.enableFieldsForAdmin, NavAgrementConstants.Role.Admin);
 				}
 			},
-			
+
 			/**
 			 * Блокировать поля после сохранения, если пользователь не Администратор.
 			 *
@@ -104,6 +127,9 @@ define("NavAgreement1Page", ["NavAgrementConstants"], function(NavAgrementConsta
 			setValidationConfig: function() {
 				this.callParent(arguments);				
 				this.addColumnValidator("NavName", this.PrepareName);
+				
+				// Задача 3.5 Установка суммпы при выборе авто
+				this.addColumnValidator("NavAuto", this.setAutoPrice);
 			},
 			
 			PrepareName: function() {
@@ -186,6 +212,164 @@ define("NavAgreement1Page", ["NavAgrementConstants"], function(NavAgrementConsta
 					}
 				}, this);				
 			},
+			
+			/**
+			 * Тригер на выбор полей [Кредитная программа] [Дата договора].
+			 *
+			 * Задание № 3.1
+			 */
+			subscribeOnCreditProgramChange: function() {
+				this.on("change:NavCredit", this.onCreditProgramChange, this);
+				this.on("change:NavDate", this.onCreditProgramChange, this);
+			},
+			
+			/**
+			 * Проверяем срок действия кредитной программы относительно даты договора.
+			 * Cрок кредита проставляется из выбранной кредитной программы.
+			 *
+			 * Задание № 3.1
+			 * Задание № 3.3
+			 */
+			onCreditProgramChange: function() {
+				var creditProgramId = this.get("NavCredit");
+				if (creditProgramId) {
+					var esq = this.Ext.create("Terrasoft.EntitySchemaQuery", {
+						rootSchemaName: "NavCredit"
+					});
+					esq.addColumn("NavDateEnd");
+					esq.addColumn("NavCreditPeriod");
+					esq.getEntity(creditProgramId, function(result) {
+						if (result.success) {
+							var creditProgram = result.entity;
+							var endDate = creditProgram.get("NavDateEnd");
+							var contractDate = this.get("NavDate");
+							if (contractDate && endDate && contractDate > endDate) {
+								this.Terrasoft.showErrorMessage(this.get("Resources.Strings.CreditProgramDateNotValidMessage"));
+								this.set("NavCredit", null);							
+							}
+							else {
+								//Проставляем срок кредита
+								var creditPeriod = creditProgram.get("NavCreditPeriod");
+								this.set("NavCreditPeriod", creditPeriod);
+							}
+						}
+					}, this);
+				}
+			},					
+			
+			/**
+			 * Установка и получение стоимости выбранного автомобился в зависимости от его состояния c пробегом\без пробега.
+			 *
+			 * Задание № 3.5
+			 */
+			setAutoPrice: function() {
+				var invalidMessage= "";
+				var autoId = this.get("NavAuto");
+				if (autoId) {
+					var esq = this.Ext.create("Terrasoft.EntitySchemaQuery", {
+						rootSchemaName: "NavAuto"
+					});
+					
+					esq.addColumn("NavUsed");
+					esq.addColumn("NavAmount");
+					esq.addColumn("NavModel");
+					
+					esq.getEntity(autoId, function(result) {
+						if (result.success) {
+							var auto = result.entity;
+							var isUsed = auto.get("NavUsed");
+							
+							//Если с пробегом проставляем стоимость из объекта автомобиль
+							if (isUsed) {
+								var usedPrice = auto.get("NavAmount");
+								this.set("NavSumma", usedPrice);
+							}
+							//Если без пробега проставляем стоимость из объекта модель
+							else {
+								var modelId = auto.get("NavModel");
+								
+								if (modelId) {
+									var esq = this.Ext.create("Terrasoft.EntitySchemaQuery", {
+										rootSchemaName: "NavModel"
+									});
+									
+									esq.addColumn("NavRecommendedAmount");
+									
+									esq.getEntity(modelId, function(result) {
+										var model = result.entity;
+										var price = model.get("NavRecommendedAmount");
+										this.set("NavSumma", price);
+									}, this);
+								}
+							}
+						}
+					}, this);
+					return {
+						invalidMessage: invalidMessage
+					};
+				}
+			},
+			
+			/**
+			 * Действие при нажатии кнопки "Пересчитать кредит".
+			 *
+			 * Задание № 3.6
+			 */
+			recalculateCreditClick: function() {
+                this.getCreditPercent();
+            },
+			
+			/**
+			 * Получаем процентную ставку по выбранному кредиту для дальнейшего перерасчета полей.
+			 *
+			 * Задание № 3.6
+			 */
+			getCreditPercent: function() {
+				var creditProgramId = this.get("NavCredit");
+				if (creditProgramId) {
+					var esq = this.Ext.create("Terrasoft.EntitySchemaQuery", {
+						rootSchemaName: "NavCredit"
+					});
+					esq.addColumn("NavPercent");
+					esq.getEntity(creditProgramId, function(result) {
+						if (result.success) {
+							var creditProgram = result.entity;
+							var creditPercent = creditProgram.get("NavPercent");
+							if (creditPercent != null) {
+								this.recalculateCredit(creditPercent);
+							}
+						}
+					}, this);
+				}
+			},
+			
+			/**
+			 * Перерасчитываем поля [Сумма кредита] и [Полная стоимость кредита].
+			 *
+			 * Задание № 3.6
+			 */
+			recalculateCredit: function(creditPercent) {
+				if (this.get("NavSumma") != null && this.get("NavInitialFee") != null) {
+					var creditAmount = this.get("NavSumma") - this.get("NavInitialFee");
+					this.set("NavCreditAmount", creditAmount);
+					
+					if (creditPercent != null && this.get("NavCreditPeriod") != null) {
+						var fullCreditAmount = creditPercent / 100 * this.get("NavCreditPeriod") * 			
+							this.get("NavCreditAmount") + this.get("NavCreditAmount");
+						this.set("NavFullCreditAmount", fullCreditAmount);
+					}
+				}
+			},
+			
+			/**
+			 * Вызов метода перерасчета полей кредита со страницы секции.
+			 *
+			 * Задание № 3.6
+			 */
+			subscribeSandboxEvents: function() {
+				this.callParent(arguments);
+				this.sandbox.subscribe("recalculateCreditMessages", this.recalculateCreditClick, this, ["NavAgreement1Page_NavAgreementafe58eedSection"]);
+			},			
 		},
 		dataModels: /**SCHEMA_DATA_MODELS*/{}/**SCHEMA_DATA_MODELS*/,
 		diff: /**SCHEMA_DIFF*/[
@@ -193,7 +377,44 @@ define("NavAgreement1Page", ["NavAgrementConstants"], function(NavAgrementConsta
 				"operation": "merge",
 				"name": "CardContentWrapper",
 				"values": {
-					"generator": "DisableControlsGenerator.generatePartial" }
+					"generator": "DisableControlsGenerator.generatePartial"
+				}
+			},
+			{
+				"operation": "insert",
+				"name": "PrimaryContactButton",
+				"values": {
+					"itemType": 5,
+					"caption": {
+						"bindTo": "Resources.Strings.RecalculateCreditButtonCaption"
+					},
+					"click": {
+						"bindTo": "recalculateCreditClick"
+					},
+					"enabled": true,
+					"style": "blue"
+				},
+				"parentName": "LeftContainer",
+				"propertyName": "items",
+				"index": 7
+			},
+			{
+				"operation": "insert",
+				"name": "CloseSelectedInvoicesButton",
+				"values": {
+					"itemType": 5,
+					"caption": {
+						"bindTo": "Resources.Strings.CloseSelectedInvoicesButtonCaption"
+					},
+					"click": {
+						"bindTo": "onCloseSelectedInvoicesButtonClick"
+					},
+					"enabled": true,
+					"style": "green"
+				},
+				"parentName": "LeftContainer",
+				"propertyName": "items",
+				"index": 8
 			},
 			{
 				"operation": "insert",
@@ -582,3 +803,11 @@ define("NavAgreement1Page", ["NavAgrementConstants"], function(NavAgrementConsta
 		]/**SCHEMA_DIFF*/	
 	};
 });
+
+
+
+
+
+
+
+

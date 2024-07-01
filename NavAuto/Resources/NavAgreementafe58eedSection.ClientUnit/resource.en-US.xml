@@ -4,6 +4,8 @@
 		<Items>
 			<Item Name="Caption" Value="Схема раздела: &quot;Договор&quot;" />
 			<Item Name="LocalizableStrings.Caption.Value" Value="Договор" />
+			<Item Name="LocalizableStrings.CloseSelectedInvoicesButtonCaption.Value" Value="Закрыть выбранные" />
+			<Item Name="LocalizableStrings.RecalculateCreditButtonCaption.Value" Value="Пересчитать кредит" />
 		</Items>
 	</Group>
 </Resources>

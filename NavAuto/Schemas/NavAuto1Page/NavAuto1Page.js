@@ -22,6 +22,14 @@ define("NavAuto1Page", [], function() {
 					"masterColumn": "Id",
 					"detailColumn": "NavAuto"
 				}
+			},
+			"NavSchema5d5b2795Detailb49ba2a3": {
+				"schemaName": "NavSchema5d5b2795Detail",
+				"entitySchemaName": "NavAutoAndCredit",
+				"filter": {
+					"detailColumn": "NavAuto",
+					"masterColumn": "Id"
+				}
 			}
 		}/**SCHEMA_DETAILS*/,
 		businessRules: /**SCHEMA_BUSINESS_RULES*/{}/**SCHEMA_BUSINESS_RULES*/,
@@ -315,6 +323,17 @@ define("NavAuto1Page", [], function() {
 				"parentName": "NotesControlGroup",
 				"propertyName": "items",
 				"index": 0
+			},
+			{
+				"operation": "insert",
+				"name": "NavSchema5d5b2795Detailb49ba2a3",
+				"values": {
+					"itemType": 2,
+					"markerValue": "added-detail"
+				},
+				"parentName": "NotesAndFilesTab",
+				"propertyName": "items",
+				"index": 2
 			},
 			{
 				"operation": "merge",
