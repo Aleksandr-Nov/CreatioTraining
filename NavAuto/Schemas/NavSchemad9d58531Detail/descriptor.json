@@ -2,13 +2,12 @@
   "Descriptor": {
     "UId": "9a4435f4-1046-40c1-8afd-a1f2c1bbe932",
     "Name": "NavSchemad9d58531Detail",
-    "ModifiedOnUtc": "\/Date(1707746514000)\/",
+    "ModifiedOnUtc": "\/Date(1719822695000)\/",
     "Parent": {
       "UId": "01eb38ee-668a-42f0-999d-c2534f979089",
       "Name": "BaseGridDetailV2"
     },
     "ManagerName": "ClientUnitSchemaManager",
-    "Caption": "Счёт",
-    "DependsOn": []
+    "Caption": "Схема детали: \"Счёт\""
   }
 }

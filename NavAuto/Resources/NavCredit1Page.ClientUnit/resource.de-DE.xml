@@ -3,6 +3,7 @@
 	<Group Type="String">
 		<Items>
 			<Item Name="Caption" Value="Страница редактирования: &quot;Кредитная программа&quot;" />
+			<Item Name="LocalizableStrings.NavSchema5d5b2795Detaile21ae418DetailCaptionOnPage.Value" Value="Objekt" />
 			<Item Name="LocalizableStrings.NavSchemace1c091eDetail0ce6b19cDetailCaptionOnPage.Value" Value="Basisobjekt" />
 		</Items>
 	</Group>

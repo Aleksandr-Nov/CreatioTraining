@@ -2,13 +2,12 @@
   "Descriptor": {
     "UId": "202dbe5f-6d5f-40cb-b714-d00adf9e51bf",
     "Name": "NavSchemab85f5adcDetail",
-    "ModifiedOnUtc": "\/Date(1707741651000)\/",
+    "ModifiedOnUtc": "\/Date(1719583657000)\/",
     "Parent": {
       "UId": "01eb38ee-668a-42f0-999d-c2534f979089",
       "Name": "BaseGridDetailV2"
     },
     "ManagerName": "ClientUnitSchemaManager",
-    "Caption": "Invoice",
-    "DependsOn": []
+    "Caption": "Счет"
   }
 }

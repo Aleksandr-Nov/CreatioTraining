@@ -4,6 +4,7 @@
 		<Items>
 			<Item Name="Caption" Value="Счет" />
 			<Item Name="LocalizableStrings.Caption.Value" Value="Счет" />
+			<Item Name="LocalizableStrings.CloseSelectedInvoicesCaption.Value" Value="Закрыть выбранные" />
 		</Items>
 	</Group>
 </Resources>
